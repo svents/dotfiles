@@ -1,0 +1,73 @@
+[user]
+	name  = svents
+	email = 73037851+svents@users.noreply.github.com
+
+[core]
+excludesFile = ~/.global_gitignore
+
+[credential "https://github.com"]
+	username = svents
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+
+[alias]
+	co = checkout
+	cm = commit
+	ps = !git push --set-upstream ${1:-origin} $(git rev-parse --abbrev-ref HEAD)
+	pf = !git push --force-with-lease ${1:-origin}
+	sb = !git.nu select-branch
+	fix = commit --amend --no-edit
+	gone = !git.nu gone
+	update = !git.nu rebase-on-main-branch
+	fza = "!git ls-files -m -o --exclude-standard | fzf --multi --print0 | xargs -0 git add"
+	rc = rebase --continue
+	ra = rebase --abort
+	ri = rebase --interactive
+
+[column]
+	ui = auto
+
+[branch]
+    sort = -committerdate
+
+[tag]
+    sort = version:refname
+
+[init]
+	defaultBranch = main
+
+[commit]
+	verbose = true
+
+[merge]
+	conflictstyle = zdiff3
+
+[diff]
+	algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+    external = difft
+
+[push]
+    default = simple
+    # Do I want this or is git ps enough?
+    # autoSetupRemote = true
+
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
+	autupdate = true

@@ -1,0 +1,139 @@
+theme = "svents"
+
+[editor]
+auto-format = true
+auto-save = true
+completion-trigger-len = 1
+completion-replace = true
+idle-timeout = 0
+cursorline = true
+bufferline = "always"
+continue-comments = false
+color-modes = true
+undercurl = true
+soft-wrap.enable = true
+popup-border = "all"
+
+end-of-line-diagnostics = "hint"
+inline-diagnostics.cursor-line = "warning"
+
+# Disabled for practice
+mouse = false
+middle-click-paste = false
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+left = [
+  "mode",
+  "spinner",
+  "file-name",
+  "read-only-indicator",
+  "file-modification-indicator",
+  "file-encoding",
+  "version-control",
+]
+center = []
+right = ["diagnostics", "selections", "register", "position"]
+
+[editor.whitespace.render]
+newline = "all"
+tab = "all"
+tabpad = "all"
+
+[editor.lsp]
+goto-reference-include-declaration = false
+display-messages = true
+display-inlay-hints = true
+display-progress-messages = true
+
+[editor.file-picker]
+hidden = false
+
+[keys.normal]
+"esc" = ["collapse_selection", "keep_primary_selection"]
+"C-," = ["goto_word"]
+# Does not work due to Helix builtin
+# "." = ["goto_word"]
+"=" = ":format"
+"C-." = "code_action"
+"G" = "goto_file_end"
+
+# File tree
+"C-t" = [
+  ':sh rm -f /tmp/yazi-path',
+  ':insert-output yazi %{buffer_name} --chooser-file=/tmp/yazi-path',
+  ':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty',
+  ':open %sh{cat /tmp/yazi-path}',
+  ':redraw',
+]
+"C-e" = ':pipe-to taia.nu explain'
+"C-g" = ":run-shell-command helix-sway.nu open-lazygit"
+
+# Window management
+"C-h" = 'jump_view_left'
+"C-j" = 'jump_view_down'
+"C-k" = 'jump_view_up'
+"C-l" = 'jump_view_right'
+"C-q" = 'wclose'
+
+# Smart Tab
+tab = "move_parent_node_end"
+S-tab = "move_parent_node_start"
+
+# Disable for learning
+up = "no_op"
+down = "no_op"
+left = "no_op"
+right = "no_op"
+pageup = "no_op"
+pagedown = "no_op"
+home = "no_op"
+end = "no_op"
+
+[keys.normal.space]
+"C-f" = 'file_picker_in_current_buffer_directory'
+
+[keys.insert]
+# Disable for learning
+up = "no_op"
+down = "no_op"
+left = "no_op"
+right = "no_op"
+pageup = "no_op"
+pagedown = "no_op"
+home = "no_op"
+end = "no_op"
+
+"C-space" = "completion"
+"C-." = "code_action"
+"C-[" = "normal_mode"
+
+# Smart Tab
+tab = "move_parent_node_end"
+S-tab = "move_parent_node_start"
+
+[keys.select]
+# Disable for learning
+up = "no_op"
+down = "no_op"
+left = "no_op"
+right = "no_op"
+pageup = "no_op"
+pagedown = "no_op"
+home = "no_op"
+end = "no_op"
+
+# Smart Tab
+tab = "extend_parent_node_end"
+S-tab = "extend_parent_node_start"
+
+"C-[" = "normal_mode"
+"G" = "extend_to_file_end"
+"C-," = ["extend_to_word"]

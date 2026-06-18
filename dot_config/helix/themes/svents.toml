@@ -1,0 +1,133 @@
+"diff.plus" = "green"
+"diff.delta" = "orange"
+"diff.minus" = "red"
+
+"diagnostic.info".underline = { color = "blue", style = "curl" }
+"diagnostic.hint".underline = { color = "green", style = "curl" }
+"diagnostic.warning".underline = { color = "orange", style = "curl" }
+"diagnostic.error".underline = { color = "red", style = "curl" }
+# Also takes care of TODO
+"info" = { fg = "blue", modifiers = ["bold"] }
+"hint" = { fg = "green", modifiers = ["bold"] }
+"warning" = { fg = "orange", modifiers = ["bold"] }
+"error" = { fg = "red", modifiers = ["bold"] }
+
+# Syntax Highlighting
+"keyword" = { fg = "blue", modifiers = ["italic"] }
+"keyword.operator" = { fg = "blue", modifiers = ["italic"] }
+"operator" = { fg = "ui-text" }
+"keyword.control" = { fg = "blue", modifiers = ["italic", "bold"] }
+"keyword.control.import" = { fg = "blue", modifiers = ["italic"] }
+"keyword.directive" = { fg = "blue", modifiers = ["italic"] }
+
+# Used to be yellow - reconsider
+"attribute" = { fg = "orange" }
+"constant.numeric" = { fg = "orange" }
+"constant.builtin" = { fg = "orange" }
+"constant.builtin.boolean" = { fg = "orange" }
+"string" = { fg = "green" }
+"constant.character.escape" = { fg = "orange" }
+# Unfortunately, declarations and usage of enum variants use different scopes
+"constant" = { fg = "orange" }
+"type.enum.variant" = { fg = "orange" }
+"constructor" = { fg = "blue" }
+"type" = { fg = "cyan" }
+"label" = { fg = "ui-text" }
+"special" = { fg = "white" }
+
+"function" = { fg = "purple" }
+"function.macro" = { fg = "purple", modifiers = ["italic"] }
+"variable.other.member" = { fg = "purple" }
+"variable.builtin" = { modifiers = ["italic"] }
+"namespace" = { modifiers = ["italic"] }
+
+"comment" = { fg = "shadowed-white", modifiers = ["italic"] }
+
+# Markdown and documentation
+"markup.heading" = { fg = "purple", modifiers = ["bold"] }
+# TODO: Check header theming in the source code
+"markup.heading.marker.1" = { fg = "cyan", modifiers = ["bold"] }
+"markup.raw.inline" = { fg = "green" }
+"markup.bold" = { fg = "orange", modifiers = ["bold"] }
+"markup.italic" = { fg = "yellow", modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.list" = { fg = "orange" }
+"markup.quote" = { fg = "yellow" }
+"markup.link.url" = { fg = "cyan", modifiers = ["underlined"] }
+"markup.link.text" = { fg = "purple" }
+
+# Editor
+"ui.cursorline.primary" = { bg = "light-black" }
+"ui.cursor.primary" = { bg = "strong-white", fg = "black" }
+"ui.cursor" = { fg = "white", modifiers = ["reversed"] }
+"ui.cursor.primary.insert" = { bg = "strong-white", fg = "black" }
+"ui.selection.primary" = { bg = "light-gray" }
+"ui.selection" = { bg = "faint-gray" }
+
+"ui.cursor.match" = { fg = "gold", modifiers = ["underlined", "bold"] }
+"ui.virtual.jump-label" = { fg = "gold" }
+
+# Bufferline
+# Not quite clear how to unset modifiers in the second line. Could be used to make the inactive buffers italic and the active one straight
+"ui.bufferline" = { bg = "gray", fg = "shadowed-white", modifiers = [] }
+"ui.bufferline.active" = { fg = "white", underline = { style = "line" }, modifiers = [
+] }
+
+"ui.background" = { bg = "ui-text-reversed" }
+"ui.virtual" = { fg = "faint-gray" }
+"ui.virtual.indent-guide" = { fg = "faint-gray" }
+"ui.virtual.whitespace" = { fg = "light-gray" }
+"ui.virtual.ruler" = { bg = "gray" }
+"ui.virtual.inlay-hint" = { fg = "light-gray" }
+
+"ui.highlight" = { bg = "gray" }
+"ui.highlight.frameline" = { bg = "#97202a" }
+
+"ui.linenr" = { fg = "linenr" }
+"ui.linenr.selected" = { fg = "ui-text" }
+
+"ui.statusline" = { bg = "gray", fg = "white", modifiers = [] }
+"ui.statusline.inactive" = { bg = "gray", fg = "shadowed-white", modifiers = [
+] }
+"ui.statusline.normal" = { fg = "light-black", bg = "blue" }
+"ui.statusline.insert" = { fg = "light-black", bg = "green" }
+"ui.statusline.select" = { fg = "light-black", bg = "purple" }
+
+"ui.text" = { fg = "ui-text" }
+"ui.text.focus" = { fg = "white", bg = "light-black", modifiers = ["bold"] }
+
+"ui.help" = { fg = "white", bg = "gray" }
+"ui.popup" = { bg = "gray" }
+"ui.window" = { fg = "gray" }
+"ui.menu" = { fg = "ui-text", bg = "gray" }
+"ui.menu.selected" = { fg = "ui-text-reversed", bg = "blue" }
+"ui.menu.scroll" = { fg = "ui-text", bg = "light-gray" }
+"ui.debug" = { fg = "red" }
+
+"ui.picker.header" = { fg = "shadowed-white", modifiers = ["italic"] }
+"ui.picker.header.active" = { fg = "shadowed-white", modifiers = ["italic"] }
+
+# Needs to be last entry, because it takes all further keys
+[palette]
+
+strong-white = "#dddddd"
+shadowed-white = "#848784"
+gold = "#dac18c"
+
+blue = "#7ca8dd"
+red = "#bd7476"
+purple = "#9d74b9"
+green = "#a0b783"
+orange = "#b4926e"
+cyan = "#7eb2be"
+light-black = "#2e323a"
+gray = "#363f4c"
+light-gray = "#5c606b"
+faint-gray = "#3B4048"
+linenr = "#4B5263"
+
+dark-blue = "#2472c8"
+white = "#a8adb7"
+black = "#292c33"
+ui-text = "#a8adb7"          #white
+ui-text-reversed = "#292c33" #black

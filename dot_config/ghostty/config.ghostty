@@ -1,0 +1,13 @@
+# Neon, Argon, Xenon, Radon, **Krypton**
+font-family = "MonaspiceRn Nerd Font"
+font-size = 10
+
+# theme = "Dark+"
+theme = "Atom One Dark"
+
+shell-integration-features = "no-cursor"
+cursor-style = "block"
+cursor-style-blink = false
+
+keybind = "ctrl+shift+page_up=move_tab:-1"
+keybind = "ctrl+shift+page_down=move_tab:1"

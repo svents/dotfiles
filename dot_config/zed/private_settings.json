@@ -1,0 +1,77 @@
+{
+  "cli_default_open_behavior": "existing_window",
+  "edit_predictions": {
+    "provider": "none",
+  },
+  "project_panel": {
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "git_panel": {
+    "dock": "left",
+  },
+  "helix_mode": true,
+  "theme": "One Light",
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "procMacro": {
+          "enable": true,
+        },
+        "cargo": {
+          "buildScripts": {
+            "enable": false,
+          },
+        },
+      },
+    },
+  },
+  "agent": {
+    "dock": "right",
+    "default_model": {
+      "provider": "llama.cpp",
+      "model": "local",
+    },
+    "inline_assistant_model": {
+      "provider": "llama.cpp",
+      "model": "local",
+    },
+    "commit_message_model": {
+      "provider": "llama.cpp",
+      "model": "local",
+    },
+    "thread_summary_model": {
+      "provider": "llama.cpp",
+      "model": "local",
+    },
+    "model_parameters": [
+      {
+        "model": "tngtech/DeepSeek-TNG-R1T2-Chimera",
+        "temperature": 0.6,
+      },
+    ],
+  },
+  "language_models": {
+    "openai_compatible": {
+      "llama.cpp": {
+        "api_url": "http://localhost:8080",
+        "available_models": [
+          {
+            "name": "local",
+            "max_tokens": 131072,
+            "max_output_tokens": 131072,
+          },
+        ],
+      },
+    },
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+}

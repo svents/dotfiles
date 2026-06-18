@@ -1,0 +1,129 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+format = """
+ \
+$directory\
+$jobs \
+${custom.git_branch}\
+$git_state\
+$git_status\
+${custom.jj}\
+$kubernetes\
+$cmd_duration\
+$line_break\
+ \
+$shell\
+ \
+$character
+"""
+
+right_format = """
+  $status\
+"""
+
+[character]
+
+[status]
+disabled = false
+format = '[$status$symbol]($style) '
+symbol='✘'
+
+[directory]
+format = '[\[ $path\]]($style)[$read_only]($read_only_style)'
+truncation_symbol = ".../"
+truncate_to_repo=false
+style = "bright silver"
+# style = "white"
+
+[cmd_duration]
+format = "[$duration]($style) "
+
+[custom.git_branch]
+when = true
+command = "jj root >/dev/null 2>&1 || starship module git_branch"
+description = "Only show git_branch if we're not in a jj repo"
+
+[git_branch]
+format = '[\[$symbol$branch\]]($style)'
+
+# [git_status]
+# format = '([\[$all_status$ahead_behind\]]($style))'
+# ahead = '⇡${count}'
+# diverged = '⇣${behind_count}⇡${ahead_count}'
+# behind = '⇣${count}'
+
+[git_status]
+conflicted = "= "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+diverged = "${ahead_count}⇕${behind_count} "
+untracked = "?${count} "
+stashed = "\\$${count} "
+modified = "!${count} "
+staged = "+${count} "
+renamed = "»${count} "
+deleted = "✘${count} "
+
+[jobs]
+format = '[\[$symbol$number\]]($style)'
+disabled=false
+symbol=' '
+
+[shell]
+format = " [$indicator ]($style)"
+bash_indicator = ""
+zsh_indicator = ""
+nu_indicator = "󰢚"
+fish_indicator = "fsh"
+powershell_indicator = "psh"
+ion_indicator = "ion"
+elvish_indicator = "esh"
+tcsh_indicator = "tsh"
+xonsh_indicator = "xsh"
+cmd_indicator = "cmd"
+unknown_indicator = ""
+style = "white bold"
+disabled = false
+
+[kubernetes]
+format = '\[[$symbol$cluster( \($namespace\))]($style)\]'
+style = "cyan bold"
+disabled = false
+
+[[kubernetes.contexts]]
+context_pattern = ".*-prod.*"
+style = "bold red"
+symbol = " "
+
+[[kubernetes.contexts]]
+context_pattern = ".*-mgmt.*"
+style = "yellow"
+symbol = " "
+
+[custom.jj]
+ignore_timeout = true
+description = "The current jj status"
+detect_folders = [".jj"]
+command = '''
+jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+  separate(" ",
+    change_id.shortest(4),
+    bookmarks,
+    "|",
+    concat(
+      if(conflict, "💥"),
+      if(divergent, "🚧"),
+      if(hidden, "👻"),
+      if(immutable, "🔒"),
+    ),
+    raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(empty)"),
+    raw_escape_sequence("\x1b[1;32m") ++ coalesce(
+      truncate_end(29, description.first_line(), "…"),
+      "(no description set)",
+    ) ++ raw_escape_sequence("\x1b[0m"),
+  )
+'
+'''
+
