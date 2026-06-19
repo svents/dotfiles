@@ -1,0 +1,171 @@
+{
+  "modules-left": [
+    "custom/power",
+    "idle_inhibitor",
+    "sway/workspaces",
+    "sway/mode",
+    "custom/scratchpad-indicator"
+  ],
+  "modules-center": [
+    "wireplumber#input",
+    "wireplumber#output",
+    "network",
+    "memory",
+    "cpu",
+    "disk",
+    "battery"
+  ],
+  "modules-right": [
+    "privacy",
+    "tray",
+    "clock"
+  ],
+  "fixed-center": false,
+
+  // Left
+  "custom/power": {
+    "format" : "⏻ ",
+    "tooltip": false,
+    "on-click": "wlogout",
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/power_menu.xml",
+    "menu-actions": {
+      "shutdown": "systemctl poweroff",
+      "reboot": "systemctl reboot",
+      "suspend": "systemctl suspend",
+      "hibernate": "systemctl hibernate",
+      "logout": "swaymsg exit"
+    },
+  },
+  "sway/workspaces": {
+    "disable-scroll": true
+  },
+  "custom/scratchpad-indicator": {
+    "interval": 1,
+    "exec": "swaymsg -t get_tree | jq 'recurse(.nodes[]) | first(select(.name==\"__i3_scratch\")) | .floating_nodes | length | select(. >= 1)'",
+    "format": "  {}",
+    "on-click": "swaymsg 'scratchpad show'"
+  },
+  "sway/mode": {
+    "format": "<span style=\"italic\"> {}</span>",
+    "tooltip": false
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": " ",
+      "deactivated": " "
+    }
+  },
+  "wireplumber#output": {
+    "format": "{icon} {volume:2}%",
+    "format-bluetooth": "{icon}  {volume}%",
+    "format-muted": "0% 󰖁",
+    "format-icons": {
+      "headphones": "",
+      "default": [
+        "",
+        ""
+      ]
+    },
+    "scroll-step": 5,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll": ""
+  },
+  // TODO: Need custom module for this, volume can never work
+  "wireplumber#input": {
+    "format": "{icon} {volume:2}%",
+    "format-bluetooth": "{icon}  {volume}%",
+    "format-muted": "0%  ",
+    "format-icons": {
+      "headphones": "",
+      "default": [""]
+    },
+    "scroll-step": 5,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+    "on-scroll": ""
+  },
+  "pulseaudio/slider#output": {
+    "min": 0,
+    "max": 100,
+    "orientation": "vertical"
+  },
+  "battery": {
+    "interval": 10,
+    "states": {
+      "full": 100,
+      "warning": 30,
+      "critical": 15
+    },
+    "format-full": "󰂄 {capacity}%",
+    "format-charging": "{icon} {capacity}%",
+    "format-discharging": "{icon} {capacity}%",
+    "format-icons": [
+      "󰂎",
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ]
+  },
+  "cpu": {
+    "interval": 5,
+    "format": "󰘚 {usage}%",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    }
+  },
+  "memory": {
+    "interval": 5,
+    "format": "󰍛 {}%",
+    "tooltip": true,
+    "tooltip-format": "{used}GB of {total}GB", 
+    "states": {
+      "warning": 70,
+      "critical": 90
+    }
+  },
+  "disk": {
+    "interval": 30,
+    "format": " {percentage_used}%",
+    "tooltip": true,
+    "tooltip-format": "{used} of {total}",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    }
+  },
+  "network": {
+    "interval": 5,
+    "format-wifi": "󰖩 {signalStrength}%",
+    "format-ethernet": "󰈁 {ifname}",
+    "format-disconnected": "󰖪 Disconnected",
+    "tooltip-format": "󰕒 {bandwidthUpBits} 󰇚 {bandwidthDownBits} - 󰩠 {ipaddr}/{cidr}",
+    "on-click": "foot -e nmtui &"
+  },
+
+  // Right
+  "clock": {
+    "format": "{:%H:%M }",
+    "format-alt": "{%d.%m.%Y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "format": {
+        "today": "<b>{}</b>"
+      }
+    }
+  },
+  "tray": {
+    "icon-size": 20
+  },
+}

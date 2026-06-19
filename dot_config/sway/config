@@ -1,0 +1,258 @@
+##### VARIABLES #####
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term foot
+
+set $lock swaylock -e -f -c 000000
+
+xwayland force
+
+##### BEHAVIOUR #####
+focus_wrapping no
+
+# Hide cursor on inactivity
+seat * hide_cursor 8000
+seat * hide_cursor when-typing enable
+
+##### STYLE SETTINGS #####
+font pango:MonaspiceKrNerdFont 10
+
+smart_borders off
+hide_edge_borders none
+default_border pixel 2
+default_floating_border normal
+
+gaps inner 4
+gaps top -2
+smart_gaps on
+
+titlebar_padding 1
+titlebar_border_thickness 0
+
+# client.<class> <border> <background> <text> [<indicator>] [<child_border>]
+client.focused           #CCCCCC #DDDDDD #000000
+client.focused_inactive  #CCCCCC #000000 #CCCCCC 
+client.unfocused         #CCCCCC #000000 #CCCCCC 
+client.focused_tab_title #CCCCCC #000000 #FFFFFF 
+
+##### IDLE CONFIGURATION #####
+# TODO: Should this be a daemon managed by systemd?
+exec swayidle -w \
+   timeout 60   '$lock' \
+   timeout 240  'swaymsg "output * dpms off"' \
+   resume       'swaymsg "output * dpms on"' \
+   # timeout 1200 'systemctl suspend-then-hibernate --check-inhibitors=no' \
+   before-sleep '$lock'
+
+##### INPUT #####
+input type:keyboard {
+    xkb_layout "us"
+    xkb_variant "altgr-intl"
+    xkb_options "nodeadkeys"
+    repeat_delay 300
+    repeat_rate 30
+}
+
+##### KEY BINDINGS #####
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+e ---inhibited exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+bindsym {
+    $mod+Shift+q exec wlogout
+    $mod+q kill
+    $mod+Shift+f fullscreen
+
+    # Scratchpad handling
+    $mod+Shift+minus move scratchpad
+    $mod+minus scratchpad show, floating disable
+
+    $mod+comma split vertical
+    $mod+period split horizontal
+    $mod+e layout toggle split
+    $mod+t layout toggle tabbed split
+    # TODO: Do I need stacking? What can it do that tabbed can't?
+    $mod+s layout toggle stacking split
+
+    # Make the current focus fullscreen
+    $mod+f fullscreen
+
+    # Toggle window between tiling and floating mode
+    $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    $mod+o focus parent
+    $mod+i focus child
+
+    --no-repeat $mod+Return exec $term
+    --no-repeat $mod+Shift+Return exec $term -e nu
+
+    # TODO: Cycle through the different windows if there are multiple instances
+    --no-repeat $mod+x exec pidof firefox && swaymsg [app_id=^firefox$] focus || firefox 
+    --no-repeat $mod+Shift+x exec firefox --private-window
+    --no-repeat $mod+z exec pidof thunderbird-bin && swaymsg [app_id=^thunderbird-esr$] focus || thunderbird 
+    # TODO: Have a shortcut for passwordmanager? Or rather a command line tool?
+    $mod+u exec taia.nu
+    $mod+Shift+u exec taia.nu --reasoning
+
+    $mod+b exec $lock
+
+    # Start your launcher
+    $mod+d exec wofi --show drun
+    $mod+Shift+d exec wofi --show run
+    #TODO: $mod+f exec dmenu-locate
+    $mod+Escape exec dmenu-session
+
+    # Notifications
+    $mod+n exec makoctl dismiss
+    $mod+a exec makoctl dismiss --all
+
+    $mod+Print exec grim -g "$(slurp)" - | wl-copy
+
+    --locked XF86MonBrightnessUp exec light -S "$(light -G | awk '{ print int(($1 + .72) * 1.4) }')" && notify-brightness
+    --locked XF86MonBrightnessDown exec light -S "$(light -G | awk '{ print int($1 / 1.4) }')"  && notify-brightness
+    --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-volume
+    --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-volume
+    --locked XF86AudioMute        exec pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-volume
+    --locked XF86AudioPlay        exec playerctl play-pause
+
+    # # Multimedia
+    # bindsym --locked XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') +5%
+    # bindsym --locked XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') -5%
+    # bindsym --locked XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks |awk '/* index:/{print $3}') toggle
+    # bindsym --locked XF86AudioPlay exec playerctl play-pause
+    # bindsym --locked XF86AudioNext exec playerctl next
+    # bindsym --locked XF86AudioPrev exec playerctl previous
+# 
+    # # Brightness controls
+    # bindsym --locked XF86MonBrightnessUp exec --no-startup-id light -A 10
+    # bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10
+
+    $mod+$left  focus left
+    $mod+$down  focus down
+    $mod+$up    focus up
+    $mod+$right focus right
+
+    $mod+Shift+$left  move left
+    $mod+Shift+$down  move down
+    $mod+Shift+$up    move up
+    $mod+Shift+$right move right
+
+    $mod+ctrl+$up    resize grow height 10px
+    $mod+ctrl+$right resize grow width 10px
+    $mod+ctrl+$left  resize shrink width 10px
+    $mod+ctrl+$down  resize shrink height 10px
+
+    $mod+Tab workspace back_and_forth
+    $mod+1 workspace number 1
+    $mod+2 workspace number 2
+    $mod+3 workspace number 3
+    $mod+4 workspace number 4
+    $mod+5 workspace number 5
+    $mod+6 workspace number 6
+    $mod+7 workspace number 7
+    $mod+8 workspace number 8
+    $mod+9 workspace number 9
+    $mod+0 workspace number 10
+
+    $mod+Shift+1 move container to workspace number 1
+    $mod+Shift+2 move container to workspace number 2
+    $mod+Shift+3 move container to workspace number 3
+    $mod+Shift+4 move container to workspace number 4
+    $mod+Shift+5 move container to workspace number 5
+    $mod+Shift+6 move container to workspace number 6
+    $mod+Shift+7 move container to workspace number 7
+    $mod+Shift+8 move container to workspace number 8
+    $mod+Shift+9 move container to workspace number 9
+    $mod+Shift+0 move container to workspace number 10
+}
+
+# TODO: Use mode for master window, not for resizing
+# TODO: Other interesting idea: Use mode for marks
+# mode "resize" {
+#     bindsym $left resize shrink width 10px
+#     bindsym $down resize grow height 10px
+#     bindsym $up resize shrink height 10px
+#     bindsym $right resize grow width 10px
+# 
+#     bindsym $mod+r mode "default"
+#     bindsym Escape mode "default"
+# }
+# bindsym $mod+r mode "resize"
+
+bar {
+    swaybar_command waybar
+}
+
+##### CLAMPMODE #####
+set $laptop eDP-1
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+
+mode "passthrough" {
+    bindsym $mod+Shift+p mode "default"
+}
+
+bindsym $mod+Shift+p mode "passthrough"
+
+set $nag exec swaynagmode
+mode "nag" {
+  bindsym {
+    Ctrl+d    mode "default"
+
+    Ctrl+c    $nag --exit
+    q         $nag --exit
+    Escape    $nag --exit
+
+    Return    $nag --confirm
+
+    Tab       $nag --select prev
+    Shift+Tab $nag --select next
+
+    Left      $nag --select next
+    Right     $nag --select prev
+
+    Up        $nag --select next
+    Down      $nag --select prev
+  }
+}
+swaynag_command swaynagmode
+
+##### STARTUP #####
+exec spice-vdagent
+exec kanshi
+exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
+# Push to talk via Handy
+exec handy --start-hidden
+bindsym --no-repeat $mod+i exec handy --toggle-transcription
+bindsym --release $mod+i exec handy --toggle-transcription
+
+##### APP CONFIGURATION #####
+for_window [app_id="taia-popup*"] floating enable
+
+##### STANDARD WORKSPACES #####
+assign [app_id=^firefox$] workspace 2
+assign [app_id=^slack$] workspace 2
+assign [app_id=^thunderbird-esr$] workspace 10
+
+
+# Handles systemd integration
+include /etc/sway/config.d/*
