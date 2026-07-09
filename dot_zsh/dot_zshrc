@@ -259,5 +259,10 @@ if [[ -d "${HOME}/.cargo/bin" ]]; then
   path+=("$HOME/.cargo/bin")
 fi
 
+# --- PATH ---
+if [[ -d "${HOME}/.local/bin" ]]; then
+  path+=("$HOME/.local/bin")
+fi
+
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
