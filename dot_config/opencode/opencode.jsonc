@@ -1,0 +1,19 @@
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "model": "llama.cpp/local",
+    "autoupdate": false,
+    "disabled_providers": [
+      "opencode"
+    ],
+    "share": "disabled",
+    "snapshot": false,
+    "permission": {
+      "skill": {
+        "writing-clearly-and-concisely": "allow"
+      }
+    },
+    "lsp": true,
+    "formatter": true,
+    "mcp": {},
+    "plugin": []
+  }
