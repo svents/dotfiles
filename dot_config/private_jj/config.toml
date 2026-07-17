@@ -1,0 +1,9 @@
+[user]
+name   = "svents"
+email  = "73037851+svents@users.noreply.github.com"
+
+[ui]
+diff_formatter = ["difft", "--color=always", "$left", "$right"]
+
+[aliases]
+cm = ["commit"]
