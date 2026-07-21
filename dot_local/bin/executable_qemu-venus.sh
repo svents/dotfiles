@@ -21,4 +21,6 @@ qemu-system-x86_64                                                       \
     -device virtio-serial-pci                                            \
     -device virtserialport,chardev=spicechannel0,name=com.redhat.spice.0 \
     -chardev spicevmc,id=spicechannel0,name=vdagent                      \
+    -device virtio-sound-pci,audiodev=my_audiodev                        \
+    -audiodev alsa,id=my_audiodev                                        \
     -hda "$1" 
